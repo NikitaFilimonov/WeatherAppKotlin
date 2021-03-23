@@ -3,14 +3,14 @@ package com.example.myweatherapp.view.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myweatherapp.R
 import com.example.myweatherapp.model.Weather
+import kotlinx.android.synthetic.main.fragment_main_recycler_item.view.*
+import java.lang.NullPointerException
 
 
-class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnItemViewClickListener?) :
+class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnItemViewClickListener) :
     RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
 
     private var weatherData: List<Weather> = listOf()
@@ -45,7 +45,7 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
 
         fun bind(weather: Weather) {
             itemView.apply {
-                findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
+                mainFragmentRecyclerItemTextView.text =
                     weather.city.city
                 setOnClickListener { onItemViewClickListener?.onItemViewClick(weather) }
             }
@@ -53,19 +53,7 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
     }
 
     fun removeListener() {
-        onItemViewClickListener = null
-    }
-
-//    fun bind(weather: Weather) {
-//        itemView.finViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
-//            weather.city.city
-//        itemView.setOnClickListener {
-//            onItemViewClickListener?.onItemViewClick(weather)
-//        }
-//    }
-
-    interface OnItemViewClickListener {
-        fun onItemViewClick(weather: Weather)
+        onItemViewClickListener != null
     }
 
 }
