@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.myweatherapp.R
 import com.example.myweatherapp.model.WeatherDTO
 import com.example.myweatherapp.databinding.FragmentDetailsBinding
+import com.example.myweatherapp.model.City
 import com.example.myweatherapp.model.Weather
 import com.example.myweatherapp.utils.showSnackBar
 import com.example.myweatherapp.viewmodel.AppState
@@ -73,13 +74,13 @@ class DetailsFragment : Fragment() {
     private fun setWeather(weather: Weather) {
         with(binding) {
             val city = weatherBundle.city
+            saveCity(city, weather)
             cityName.text = city.city
             cityCoordinates.text = String.format(
                 getString(R.string.city_coordinates),
                 city.lat.toString(),
                 city.lon.toString()
             )
-
             weather.icon?.let {
                 GlideToVectorYou.justLoadImage(
                     activity,
@@ -96,6 +97,20 @@ class DetailsFragment : Fragment() {
                 .load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
                 .into(headerIcon)
         }
+    }
+
+    private fun saveCity(
+        city: City,
+        weather: Weather
+    ) {
+        viewModel.saveCityToDB(
+            Weather(
+                city,
+                weather.temperature,
+                weather.feelsLike,
+                weather.condition
+            )
+        )
     }
 
     override fun onDestroyView() {

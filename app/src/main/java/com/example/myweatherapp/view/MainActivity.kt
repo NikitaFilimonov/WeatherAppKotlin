@@ -1,14 +1,15 @@
 package com.example.myweatherapp.view
 
+import com.example.myweatherapp.view.maps.GoogleMapsFragment
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.example.myweatherapp.view.history.HistoryFragment
 import com.example.myweatherapp.R
 import com.example.myweatherapp.databinding.MainActivityBinding
-import com.example.myweatherapp.view.experiments.ThreadsFragment
 import com.example.myweatherapp.view.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -36,10 +37,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_threads -> {
+            R.id.menu_history -> {
                 supportFragmentManager.apply {
                     beginTransaction()
-                        .add(R.id.container, ThreadsFragment.newInstance())
+                        .add(R.id.container, HistoryFragment.newInstance())
+                        .addToBackStack("")
+                        .commitAllowingStateLoss()
+                }
+                true
+            }
+            R.id.menu_google_maps -> {
+                supportFragmentManager.apply {
+                    beginTransaction()
+                        .add(R.id.container, GoogleMapsFragment.newInstance())
                         .addToBackStack("")
                         .commitAllowingStateLoss()
                 }
@@ -47,5 +57,10 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_screen_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }
